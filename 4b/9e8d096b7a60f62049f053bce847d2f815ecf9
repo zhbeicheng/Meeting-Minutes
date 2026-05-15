@@ -1,0 +1,81 @@
+AI_Coding协同开发全过程记录.md
+  cd9fb38976674115 718-722,738,757-879 gitai:{"mixed_line_ranges":[],"operations":[{"operation_id":"6a07629680862d86c4a721ac","tool_type":"agent","tool_id":"apply_patch","line_ranges":[{"Range":[718,722]},{"Single":738},{"Range":[757,879]}]}]}
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "4b9e8d096b7a60f62049f053bce847d2f815ecf9",
+  "prompts": {
+    "cd9fb38976674115": {
+      "agent_id": {
+        "tool": "trae",
+        "id": "6a06dba580862d86c4a70793",
+        "model": "gpt-5.5__dev"
+      },
+      "human_author": "zhbeicheng <zhbeicheng@users.noreply.github.com>",
+      "messages": [],
+      "total_additions": 129,
+      "total_deletions": 6,
+      "accepted_lines": 129,
+      "overriden_lines": 0
+    }
+  },
+  "attestation_metadata": {
+    "AI_Coding协同开发全过程记录.md": [
+      {
+        "hash": "cd9fb38976674115",
+        "line_ranges": [
+          {
+            "Range": [
+              718,
+              722
+            ]
+          },
+          {
+            "Single": 738
+          },
+          {
+            "Range": [
+              757,
+              879
+            ]
+          }
+        ],
+        "mixed_line_ranges": [],
+        "operations": [
+          {
+            "operation_id": "6a07629680862d86c4a721ac",
+            "tool_type": "agent",
+            "tool_id": "apply_patch",
+            "line_ranges": [
+              {
+                "Range": [
+                  718,
+                  722
+                ]
+              },
+              {
+                "Single": 738
+              },
+              {
+                "Range": [
+                  757,
+                  879
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "remote_transcripts": {
+    "cd9fb38976674115": {
+      "tool": "trae",
+      "conversation_id": "6a06dba580862d86c4a70793",
+      "session_id": "6a06dba580862d86c4a70793",
+      "status": "remote_only",
+      "message": "Remote transcript resolution is not implemented yet for TRAE prompts."
+    }
+  }
+}
