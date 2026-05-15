@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>华科储能智能会议助手</title>
+    <link rel="stylesheet" href="/static/样式.css">
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!-- 顶部导航栏 -->
+    <!-- ============================================================ -->
+    <header class="top-bar">
+        <div class="top-bar-left">
+            <span class="logo-icon">⚡</span>
+            <span class="logo-text">华科储能智能会议助手</span>
+            <span class="version-tag">v1.0</span>
+        </div>
+        <div class="top-bar-center">
+            <div class="status-indicators">
+                <span id="status-stt" class="status-dot" title="语音转写引擎">🔴</span>
+                <span id="status-llm" class="status-dot" title="纪要生成引擎">🔴</span>
+            </div>
+        </div>
+        <div class="top-bar-right">
+            <span id="clock" class="clock">--:--:--</span>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- 主内容区：左右分屏 -->
+    <!-- ============================================================ -->
+    <main class="main-container">
+
+        <!-- ==================== 左侧面板：录音转文字 ==================== -->
+        <section class="panel panel-left">
+            <div class="panel-header">
+                <h2>🎤 录音转文字</h2>
+                <div class="panel-header-actions">
+                    <!-- 引擎选择 -->
+                    <select id="engine-select" class="engine-select" title="选择语音识别引擎">
+                        <option value="cloud_streaming">☁️ 云端流式（推荐）</option>
+                        <option value="cloud_file">📁 云端录音文件</option>
+                        <option value="local">💻 本地引擎（待部署）</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <!-- 录音控制区 -->
+                <div class="recorder-section">
+                    <div class="recorder-controls">
+                        <button id="btn-record" class="btn btn-record" title="开始录音">
+                            <span class="btn-icon">🔴</span>
+                            <span class="btn-text">开始录音</span>
+                        </button>
+                        <button id="btn-pause" class="btn btn-pause hidden" title="暂停录音">
+                            <span class="btn-icon">⏸️</span>
+                        </button>
+                        <button id="btn-stop" class="btn btn-stop hidden" title="停止录音">
+                            <span class="btn-icon">⏹️</span>
+                        </button>
+                        <span id="recording-timer" class="recording-timer">00:00</span>
+                        <span id="recording-status" class="recording-status"></span>
+                    </div>
+
+                    <!-- 波形可视化 -->
+                    <canvas id="waveform" class="waveform" width="600" height="60"></canvas>
+
+                    <!-- 上传音频 -->
+                    <div class="upload-section">
+                        <label for="file-upload" class="btn btn-upload">
+                            📂 上传音频文件
+                        </label>
+                        <input type="file" id="file-upload" accept="audio/*" hidden>
+                        <span id="upload-filename" class="upload-filename"></span>
+                    </div>
+                </div>
+
+                <!-- 转写进度 -->
+                <div id="stt-progress" class="stt-progress hidden">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="progress-text">正在转写中...</span>
+                </div>
+
+                <!-- 实时转写结果 -->
+                <div class="transcript-section realtime-transcript-section">
+                    <div class="section-label">
+                        <span>⚡ 实时原文</span>
+                        <span class="char-count">录音中持续更新</span>
+                    </div>
+                    <textarea
+                        id="realtime-text"
+                        class="transcript-textarea realtime-textarea"
+                        placeholder="录音开始后，实时识别文本会显示在这里...&#10;为保证长录音稳定，实时区只展示原文，不做最终发言人归档"
+                        rows="6"
+                    ></textarea>
+                </div>
+
+                <!-- 最终整理结果 -->
+                <div class="transcript-section final-transcript-section">
+                    <div class="section-label">
+                        <span>📝 最终转写 / 发言人标注</span>
+                        <span id="transcript-chars" class="char-count">0 字</span>
+                    </div>
+                    <div id="speaker-rename-panel" class="speaker-rename-panel hidden">
+                        <div class="speaker-rename-title">
+                            <span>👥 发言人校正</span>
+                            <span class="speaker-rename-hint">将发言人 A/B 改为真实姓名，并同步替换全文</span>
+                        </div>
+                        <div id="speaker-rename-list" class="speaker-rename-list"></div>
+                    </div>
+                    <textarea
+                        id="transcript-text"
+                        class="transcript-textarea"
+                        placeholder="停止录音后，系统会基于完整音频重新转写并标注发言人...&#10;&#10;你也可以直接粘贴会议文本到此处"
+                        rows="8"
+                    ></textarea>
+                    <div class="transcript-actions">
+                        <button id="btn-copy-transcript" class="btn btn-sm">📋 复制</button>
+                        <button id="btn-clear-transcript" class="btn btn-sm btn-ghost">🗑️ 清空</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 右侧面板：会议纪要 ==================== -->
+        <section class="panel panel-right">
+            <div class="panel-header">
+                <h2>📋 会议纪要</h2>
+            </div>
+
+            <div class="panel-body">
+                <!-- 生成按钮 -->
+                <div class="generate-section">
+                    <button id="btn-generate" class="btn btn-primary btn-lg">
+                        ✨ 生成会议纪要
+                    </button>
+                    <button id="btn-history" class="btn btn-lg btn-history-main">
+                        📚 查看历史记录
+                    </button>
+                    <span id="generate-status" class="generate-status"></span>
+                </div>
+
+                <!-- 纪要展示区 -->
+                <div class="minutes-section">
+                    <div class="section-label">
+                        <span>📄 纪要内容</span>
+                        <span id="minutes-chars" class="char-count">0 字</span>
+                    </div>
+                    <div id="minutes-content" class="minutes-content">
+                        <div class="minutes-placeholder">
+                            <div class="placeholder-icon">📋</div>
+                            <p>点击「生成会议纪要」按钮</p>
+                            <p class="placeholder-hint">AI 将根据左侧转写文本自动生成结构化纪要</p>
+                        </div>
+                    </div>
+                    <div class="minutes-actions hidden" id="minutes-actions">
+                        <button id="btn-copy-minutes" class="btn btn-sm">📋 复制</button>
+                        <button id="btn-export-docx" class="btn btn-sm">📥 导出 Word</button>
+                        <button id="btn-translate" class="btn btn-sm btn-ghost">🌐 翻译</button>
+                    </div>
+                </div>
+
+                <!-- 翻译结果区（默认折叠） -->
+                <div id="translate-section" class="translate-section hidden">
+                    <div class="section-label">
+                        <span>🌐 英文翻译</span>
+                        <button id="btn-close-translate" class="btn btn-xs btn-ghost">✕</button>
+                    </div>
+                    <div id="translate-content" class="translate-content"></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- 底部状态栏 -->
+    <!-- ============================================================ -->
+    <footer class="bottom-bar">
+        <span id="status-text">就绪</span>
+        <span class="bottom-bar-right">
+            <span id="engine-info">引擎：云端流式</span>
+            <span class="separator">|</span>
+            <span id="model-info">模型：--</span>
+        </span>
+    </footer>
+
+    <!-- ============================================================ -->
+    <!-- Toast 提示 -->
+    <!-- ============================================================ -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- ============================================================ -->
+    <!-- 历史记录抽屉 -->
+    <!-- ============================================================ -->
+    <aside id="history-drawer" class="history-drawer hidden">
+        <div class="history-header">
+            <div>
+                <h3>📚 历史会议记录</h3>
+                <p>查看已保存的录音转写、纪要和音频路径</p>
+            </div>
+            <button id="btn-close-history" class="btn btn-xs btn-ghost">✕</button>
+        </div>
+        <div id="history-list" class="history-list"></div>
+    </aside>
+
+    <!-- ============================================================ -->
+    <!-- JavaScript -->
+    <!-- ============================================================ -->
+    <script src="/static/交互.js?v=minutes-cloud-only-v1"></script>
+</body>
+</html>

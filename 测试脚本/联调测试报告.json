@@ -1,0 +1,123 @@
+{
+  "timestamp": "2026-05-15 21:41:13",
+  "total": 19,
+  "passed": 18,
+  "failed": 1,
+  "pass_rate": "94.7%",
+  "results": [
+    {
+      "id": "TC-08",
+      "name": "全流程测试",
+      "passed": false,
+      "detail": "转写失败：云端语音识别连接关闭：无有效语音内容或音频过短"
+    },
+    {
+      "id": "TC-09",
+      "name": "文本→纪要（部门例会）",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "id": "TC-09",
+      "name": "文本→纪要（项目评审）",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "id": "TC-09",
+      "name": "文本→纪要（客户沟通）",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "id": "TC-09",
+      "name": "文本→纪要（领导汇报）",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "id": "TC-09",
+      "name": "短文本纪要生成",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "id": "TC-10",
+      "name": "引擎切换（cloud_streaming）",
+      "passed": true,
+      "detail": "上传成功，task_id=2431bb32"
+    },
+    {
+      "id": "TC-10",
+      "name": "引擎切换（cloud_file）",
+      "passed": true,
+      "detail": "上传成功，task_id=6feec7e3"
+    },
+    {
+      "id": "TC-10",
+      "name": "引擎切换（local）",
+      "passed": true,
+      "detail": "引擎未配置（预期行为，后期部署后可用）"
+    },
+    {
+      "id": "TC-11",
+      "name": "空文本校验",
+      "passed": true,
+      "detail": "HTTP 400：转写文本不能为空，请先完成语音转写"
+    },
+    {
+      "id": "TC-11",
+      "name": "无效模板校验",
+      "passed": true,
+      "detail": "HTTP 400：不支持的模板类型：不存在的模板\n可选模板：部门例会、项目评审、客户沟通、领导汇报"
+    },
+    {
+      "id": "TC-11",
+      "name": "不存在任务查询",
+      "passed": true,
+      "detail": "HTTP 404"
+    },
+    {
+      "id": "TC-11",
+      "name": "大文本纪要生成",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "id": "TC-11",
+      "name": "特殊字符保留",
+      "passed": true,
+      "detail": "纪要中保留了专业术语"
+    },
+    {
+      "id": "TC-12",
+      "name": "主页加载",
+      "passed": true,
+      "detail": "HTTP 200，大小 9193 字节"
+    },
+    {
+      "id": "TC-12",
+      "name": "CSS 样式文件",
+      "passed": true,
+      "detail": "HTTP 200，大小 18369 字节"
+    },
+    {
+      "id": "TC-12",
+      "name": "JS 交互文件",
+      "passed": true,
+      "detail": "HTTP 200，大小 25033 字节"
+    },
+    {
+      "id": "TC-12",
+      "name": "HTML 结构完整性",
+      "passed": true,
+      "detail": "通过 8/8 项：左侧面板存在、右侧面板存在、录音按钮存在、生成按钮存在、引擎选择器存在、模板选择器存在、波形画布存在、Toast 组件存在"
+    },
+    {
+      "id": "TC-12",
+      "name": "Swagger 文档",
+      "passed": true,
+      "detail": "HTTP 200"
+    }
+  ]
+}

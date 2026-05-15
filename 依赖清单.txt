@@ -1,0 +1,60 @@
+# ============================================================
+# 华科储能智能会议助手 — Python 依赖清单
+# 安装方式：pip install -r 依赖清单.txt
+# ============================================================
+
+# --- Web 框架 ---
+# FastAPI：高性能异步 Web 框架，自动生成 Swagger API 文档
+# Uvicorn：ASGI 服务器，支持热重载，开发调试必备
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.0.0
+
+# --- 桌面 GUI ---
+# pywebview：将 Web 前端包装为本地桌面窗口
+pywebview>=5.0
+
+# --- 语音转写 ---
+# faster-whisper：基于 CTranslate2 的 Whisper 推理引擎
+# 比 OpenAI 原版 Whisper 快 4 倍，内存占用减少 50%
+# 使用 small 模型（~2GB），中文识别准确率 ≥ 95%
+faster-whisper>=1.0.0
+
+# --- HTTP 客户端 ---
+# httpx：异步 HTTP 客户端，用于调用火山方舟 LLM API
+# 支持 async/await，不阻塞 FastAPI 事件循环
+httpx>=0.27.0
+
+# websockets：WebSocket 客户端库
+# 用于连接火山引擎豆包语音识别大模型（流式 ASR）
+websockets>=12.0
+
+# --- 文档生成 ---
+# python-docx：Word 文档读写库
+# 支持中文段落、字体、表格、页眉页脚
+python-docx>=1.1.0
+
+# --- 音频处理 ---
+# pydub：音频格式转换工具
+# 将浏览器录制的 WebM/MP3/M4A 转换为 Whisper 所需的 WAV 格式
+pydub>=0.25.1
+
+# sounddevice：Python 原生录音，解决桌面 WebView 麦克风权限问题
+sounddevice>=0.4.6
+
+# --- 本地说话人辅助标注 ---
+# Resemblyzer：轻量本地声纹特征提取
+# librosa / scikit-learn：音频加载、聚类和说话人估计
+resemblyzer>=0.1.4
+librosa>=0.10.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+
+# --- 工具库 ---
+# python-dotenv：从 .env 文件加载环境变量
+# 避免 API Key 硬编码在代码中
+python-dotenv>=1.0.0
+
+# python-multipart：文件上传支持
+# FastAPI 处理 FormData 文件上传的必需依赖
+python-multipart>=0.0.9
